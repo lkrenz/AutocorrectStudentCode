@@ -49,6 +49,16 @@ public class Autocorrect {
         return paths[word1.length() -1][word2.length() -1];
     }
 
+    public class WordPair {
+        String word;
+        int editDistance;
+
+        public WordPair(String word, int editDistance) {
+            this.word = word;
+            this.editDistance = editDistance;
+        }
+    }
+
     /**
      * Runs a test from the tester file, AutocorrectTester.
      * @param typed The (potentially) misspelled word, provided by the user.
@@ -56,18 +66,39 @@ public class Autocorrect {
      * to threshold, sorted by edit distnace, then sorted alphabetically.
      */
     public String[] runTest(String typed) {
-        ArrayList<String> closeWords = new ArrayList<>();
+        ArrayList<WordPair> closeWords = new ArrayList<>();
         for (int i = 0; i < words.length; i++) {
-            if (findEditDistance(typed, this.words[i]) <= threshold) {
-                closeWords.add(words[i]);
+            int editDistance = findEditDistance(typed, this.words[i]);
+            if (editDistance <= threshold) {
+                placeWord(closeWords, new WordPair(words[i], editDistance));
             }
         }
-        String[] words = closeWords.toArray(new String[0]);
-        System.out.println(Arrays.toString(words));
 
-        return closeWords.toArray(new String[0]);
+        String[] cleanedWords = cleanWords(closeWords);
+        System.out.println(Arrays.toString(cleanedWords));
+
+        return cleanedWords;
     }
 
+    public void placeWord(ArrayList<WordPair> words, WordPair word) {
+        int index = 0;
+        int length = words.size();
+        while (index < length && words.get(index).editDistance != word.editDistance) {
+            index++;
+        }
+        while (index < length && words.get(index).editDistance == word.editDistance && word.word.compareTo(words.get(index).word) < 0) {
+            index++;
+        }
+        words.add(index, word);
+    }
+
+    public String[] cleanWords(ArrayList<WordPair> words) {
+        String[] cleanedWords = new String[words.size()];
+        for (int i = 0; i < cleanedWords.length; i++) {
+            cleanedWords[i] = words.get(i).word;
+        }
+        return cleanedWords;
+    }
 
     /**
      * Loads a dictionary of words from the provided textfiles in the dictionaries directory.
