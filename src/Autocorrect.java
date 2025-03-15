@@ -57,6 +57,10 @@ public class Autocorrect {
             this.word = word;
             this.editDistance = editDistance;
         }
+
+        public String toString() {
+            return "" + this.word + " : " + editDistance;
+        }
     }
 
     /**
@@ -74,19 +78,16 @@ public class Autocorrect {
             }
         }
 
-        String[] cleanedWords = cleanWords(closeWords);
-        System.out.println(Arrays.toString(cleanedWords));
-
-        return cleanedWords;
+        return cleanWords(closeWords);
     }
 
     public void placeWord(ArrayList<WordPair> words, WordPair word) {
         int index = 0;
         int length = words.size();
-        while (index < length && words.get(index).editDistance != word.editDistance) {
+        while (index < length && words.get(index).editDistance < word.editDistance) {
             index++;
         }
-        while (index < length && words.get(index).editDistance == word.editDistance && word.word.compareTo(words.get(index).word) < 0) {
+        while (index < length && words.get(index).editDistance == word.editDistance && word.word.compareTo(words.get(index).word) > 0) {
             index++;
         }
         words.add(index, word);
