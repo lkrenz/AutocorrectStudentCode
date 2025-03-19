@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Autocorrect
@@ -61,6 +62,41 @@ public class Autocorrect {
         public String toString() {
             return "" + this.word + " : " + editDistance;
         }
+    }
+
+    public class DictionaryChopper {
+        String[] dict;
+        String word;
+
+        public DictionaryChopper(String[] dict, String word) {
+            this.dict = dict;
+            this.word = word;
+        }
+
+        public ArrayList<String>[] tokenizationArray(int n, String word, int ) {
+
+            String[] chops = tokenizeChop(word, n);
+            ArrayList<String>[] words = new ArrayList[chops.length];
+            for (int i = 0; i < chops.length; i++) {
+
+            }
+        }
+
+        public boolean checkLength(int word, int length, int maxDiff) {
+
+        }
+
+        public String[] tokenizeChop(String word, int length) {
+            ArrayList<String> chops = new ArrayList<>();
+            if (word.length() < length) {
+                return null;
+            }
+            for (int i = 0; i + length < word.length(); i++) {
+                chops.add(word.substring(i, i + length));
+            }
+            return chops.toArray(new String[0]);
+        }
+
     }
 
     /**
