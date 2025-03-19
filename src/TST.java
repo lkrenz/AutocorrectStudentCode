@@ -4,6 +4,9 @@ public class TST {
     public TST(char letter) {
         this.root = new Node(letter);
     }
+    public TST() {
+        this.root = new Node('m');
+    }
 
     // Adds words to the TST
     public void addWord(String word) {

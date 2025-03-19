@@ -73,17 +73,46 @@ public class Autocorrect {
             this.word = word;
         }
 
-        public ArrayList<String>[] tokenizationArray(int n, String word, int ) {
-
+        public ArrayList<String> tokenizationArray(int n, int threshold) {
             String[] chops = tokenizeChop(word, n);
-            ArrayList<String>[] words = new ArrayList[chops.length];
-            for (int i = 0; i < chops.length; i++) {
-
+            if (chops == null) {
+                return null;
             }
+
+            ArrayList<String> words = new ArrayList<>();
+
+            ArrayList<String> newDict = new ArrayList<>();
+            int wordLength = word.length();
+
+            for (int i = 0; i < dict.length; i++) {
+                if (Math.abs(wordLength - dict[i].length()) <= threshold) {
+                    newDict.add(dict[i]);
+                }
+            }
+
+            for (int i = 0; i < chops.length; i++) {
+                for (int j = 0; j < newDict.size(); j++) {
+                    if (containsSegment(newDict.get(j), chops[i])) {
+                        words.add(newDict.remove(j));
+                        j--;
+                    }
+                }
+            }
+            return words;
         }
 
-        public boolean checkLength(int word, int length, int maxDiff) {
+        public boolean containsSegment(String word, String segment) {
+            if (segment.length() > word.length()) {
+                return false;
+            }
 
+            int segLength = segment.length();
+            for (int i = 0; i + segLength < word.length(); i++) {
+                if (word.substring(i, i + segLength).compareTo(segment) == 0) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public String[] tokenizeChop(String word, int length) {
