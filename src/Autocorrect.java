@@ -136,10 +136,19 @@ public class Autocorrect {
      */
     public String[] runTest(String typed) {
         ArrayList<WordPair> closeWords = new ArrayList<>();
-        for (int i = 0; i < words.length; i++) {
-            int editDistance = findEditDistance(typed, this.words[i]);
+
+        DictionaryChopper chopper = new DictionaryChopper(this.words, typed);
+
+        String[] newDict = this.words;
+
+//        String[] newDict = chopper.tokenizationArray(2, threshold).toArray(new String[0]);
+
+
+
+        for (int i = 0; i < newDict.length; i++) {
+            int editDistance = findEditDistance(typed, newDict[i]);
             if (editDistance <= threshold) {
-                placeWord(closeWords, new WordPair(words[i], editDistance));
+                placeWord(closeWords, new WordPair(newDict[i], editDistance));
             }
         }
 
