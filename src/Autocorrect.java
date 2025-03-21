@@ -1,9 +1,11 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Scanner;
 
 /**
  * Autocorrect
@@ -198,6 +200,28 @@ public class Autocorrect {
         }
         catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        while (true) {
+            System.out.println("Input a word: ");
+            String word = s.nextLine();
+
+            Autocorrect corrector = new Autocorrect(loadDictionary("large"), 1);
+            String[] answers = corrector.runTest(word);
+            System.out.println("You typed: " + word);
+            if (answers.length > 0) {
+                System.out.println("Did you mean ...");
+                for (int i = 0; i < answers.length; i++) {
+                    System.out.println(answers[i]);
+                }
+            }
+            else {
+                System.out.println("No matches found.");
+            }
+            System.out.println("~~~~~~~~~~~~~~");
         }
     }
 }

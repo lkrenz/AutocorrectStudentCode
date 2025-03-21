@@ -36,6 +36,16 @@ public class AutocorrectTester {
 //        assertArrayEquals(matches, studentSolution.runTest(typed), "Incorrect words returned.");
     }
 
+    @Test
+    @Timeout(value = 100, unit = TimeUnit.MILLISECONDS)
+    public void testLargest() {
+        setTestData(3);
+        studentSolution = new Autocorrect(dictionary, threshold);
+        System.out.println(Arrays.toString(studentSolution.runTest(typed)));
+//        assertArrayEquals(matches, studentSolution.runTest(typed), "Incorrect words returned.");
+    }
+
+
     private void setTestData(int test) {
         // Open files
         try {
