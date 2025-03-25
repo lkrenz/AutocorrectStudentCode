@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -56,7 +54,7 @@ public class Autocorrect {
     }
 
     // Class for holding word and edit distance for use in ordering
-    public class WordPair {
+    public static class WordPair {
         String word;
         int editDistance;
 
@@ -228,14 +226,22 @@ public class Autocorrect {
     }
 
     public static void main(String[] args) {
+
         Scanner s = new Scanner(System.in);
+
+        // Gets input words from the terminal until program is terminated
         while (true) {
+
+            // Takes misspelled word
             System.out.println("Input a word: ");
             String word = s.nextLine();
 
+            // Creates a correcotr object and prints out possible corrections
             Autocorrect corrector = new Autocorrect(loadDictionary("large"), 1);
             String[] answers = corrector.runTest(word);
             System.out.println("You typed: " + word);
+
+            // Prints out possible words if they exist
             if (answers.length > 0) {
                 System.out.println("Did you mean ...");
                 for (int i = 0; i < answers.length; i++) {
