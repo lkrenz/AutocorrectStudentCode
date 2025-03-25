@@ -1,0 +1,21 @@
+Pre-processing :
+
+    For the preprocessing, through the tokenization and word length approach, the time complexity depends
+    on a few components, the length of the dictionary, the length of the input word, and the average length
+    of words in the dictionary. There is one linear pass through the dictionary for word length, and then one pass
+    through the dictionary for each token in the original word, giving a time complexity of L * n, where L is the
+    length of the dictionary, and n is the length of the misspelled word.
+
+Edit distance:
+
+    For the edit distance, each individual operation is conducted in time proportional to the length of the misspelled
+    word multiplied by the length of the current dictionary word. This time complexity is arrived at through the
+    tabulation approach, which uses a 2D array with dimensions of the length of each word. Each step to fill in each box
+    takes linear time, so the time for each edit distance calculation is proportional to the length of the original word
+    times the average word length in the dicitionary. This gives the final time complexity of this step as L * n * a
+    where L is the length of the dictionary, n is the length of the word, and a is the average length of words in the
+    dictionary.
+
+Total time complexity:
+
+    By combining the two steps in my algorithm, I arrive at a final time compelxity of L * n + L * n * a, or L*n(1 + a).
